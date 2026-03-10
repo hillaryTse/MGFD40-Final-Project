@@ -1,3 +1,4 @@
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.parquet filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
 Data/reddit_data_2007_2024.csv filter=lfs diff=lfs merge=lfs -text
