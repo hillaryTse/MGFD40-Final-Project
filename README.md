@@ -27,9 +27,9 @@ pip install pandas pyarrow praw requests
 git checkout -b your-name/feature-description
 ```
 
-2. Make your changes, then add all files you want to be pushed and commit:
+2. Make your changes, stage and commit:
 ```bash
-git add file.py file.csv file.parquet folder/
+git add .
 git commit -m "Brief description of what you did"
 ```
 
