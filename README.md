@@ -59,7 +59,10 @@ pip install pandas pyarrow praw requests
 
 ### Option A: GitHub Desktop
 
-1. **Create a branch** (recommended if more than one person is working, or if you want someone to review before merging):
+1. **Pull the latest changes** before starting work:
+   - In GitHub Desktop, click **Fetch origin** (top bar), then **Pull origin** if there are new changes
+
+2. **Create a branch** (recommended if more than one person is working, or if you want someone to review before merging):
    - In GitHub Desktop, click **Current Branch** at the top → **New Branch**
    - Name it `your-name/feature-description` and click **Create Branch**
 
@@ -83,18 +86,23 @@ pip install pandas pyarrow praw requests
 
 ### Option B: Command Line
 
-1. Create a branch for your changes -- (**do this step if you want someone to review before saving to repository OR if more than 1 person is working on code at the same time**):
+1. Pull the latest changes before starting work:
+```bash
+git pull origin
+```
+
+2. Create a branch for your changes -- (**do this step if you want someone to review before saving to repository OR if more than 1 person is working on code at the same time**):
 ```bash
 git checkout -b your-name/feature-description
 ```
 
-2. Make your changes, stage and commit:
+3. Make your changes, stage and commit:
 ```bash
 git add .
 git commit -m "Brief description of what you did"
 ```
 
-3. If you created a branch previously, push your branch:
+4. If you created a branch previously, push your branch:
 ```bash
 git push origin your-name/feature-description
 ```
@@ -103,7 +111,7 @@ but if you did not create a branch:
 git push origin
 ```
 
-4. Open a **Pull Request** on GitHub for the team to review before merging -- (**Not required if you did not create a branch previously**)
+5. Open a **Pull Request** on GitHub for the team to review before merging -- (**Not required if you did not create a branch previously**)
 
 ---
 
