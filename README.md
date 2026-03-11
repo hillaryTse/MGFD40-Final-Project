@@ -22,14 +22,14 @@ pip install pandas pyarrow praw requests
 
 ## Contributing
 
-1. Create a branch for your changes -- (**do this step if you are not sure about the changes you are making and want someone to review before saving to repository OR more than 1 person is working on code at the same time**):
+1. Create a branch for your changes -- (**do this step if you want someone to review before saving to repository OR if more than 1 person is working on code at the same time**):
 ```bash
 git checkout -b your-name/feature-description
 ```
 
-2. Make your changes, then stage and commit:
+2. Make your changes, then add all files you want to be pushed and commit:
 ```bash
-git add .
+git add file.py file.csv file.parquet folder/
 git commit -m "Brief description of what you did"
 ```
 

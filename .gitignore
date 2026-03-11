@@ -1,0 +1,20 @@
+# Licensed data files — do not push (CRSP/Compustat license violation)
+crsp_compu_link_table_20260107_045442.parquet
+crsp_daily_20260107_044825.parquet
+compustat_quarterly_20260202_014720.parquet
+crsp_compu_link_table.parquet
+crsp_daily.parquet
+compustat.parquet
+prof-data/
+
+# Reddit scraper checkpoint
+scrape_checkpoint.txt
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
