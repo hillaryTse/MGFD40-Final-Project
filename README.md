@@ -18,7 +18,7 @@ Open GitHub Desktop → **File > Options > Accounts** → sign in with your GitH
 
 #### A3. Clone the repository
 1. In GitHub Desktop, click **File > Clone repository**
-2. Select the **URL** tab and paste: `https://github.com/hillaryTse/MGFD40.git`
+2. Select the **URL** tab and paste: `https://github.com/hillaryTse/MGFD40-Final-Project.git`
 3. Choose a local path and click **Clone**
 
 #### A4. Install Python
@@ -40,7 +40,7 @@ Download from [git-scm.com](https://git-scm.com/downloads) and install.
 
 #### B2. Clone the repository
 ```bash
-git clone https://github.com/hillaryTse/MGFD40.git
+git clone https://github.com/hillaryTse/MGFD40-Final-Project.git
 cd MGFD40
 ```
 
