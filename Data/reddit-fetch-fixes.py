@@ -1,13 +1,19 @@
 """
+<<<<<<< HEAD
 Reads reddit_data_2007_2024.parquet, keeps only rows where the ticker
 is mentioned with a dollar sign ($TICKER) in the subject or content,
 then saves cleaned data as both .parquet and .csv.
+=======
+Reads reddit_fetch_2007_2024.csv, flattens newlines in content,
+and saves as reddit_fetch_2007_2024.parquet next to the CSV.
+>>>>>>> aa318d1 (refetch reddit mentions 2007-2024)
 """
 
 import pandas as pd
 import os
 
 script_dir   = os.path.dirname(os.path.abspath(__file__))
+<<<<<<< HEAD
 PARQUET_PATH = os.path.join(script_dir, "reddit_data_2007_2024.parquet")
 CSV_PATH     = os.path.join(script_dir, "reddit_data_2007_2024.csv")
 
@@ -36,3 +42,23 @@ print(f"  Saved {len(df_clean):,} rows to {PARQUET_PATH}")
 
 df_clean.to_csv(CSV_PATH, index=False)
 print(f"  Saved {len(df_clean):,} rows to {CSV_PATH}")
+=======
+CSV_PATH     = os.path.join(script_dir, "reddit_fetch_2007_2024.csv")
+PARQUET_PATH = os.path.join(script_dir, "reddit_fetch_2007_2024.parquet")
+
+print(f"Reading {CSV_PATH} ...")
+df = pd.read_csv(CSV_PATH, engine="python")
+print(f"  {len(df):,} rows loaded")
+
+if "content" in df.columns:
+    df["content"] = (
+        df["content"]
+        .astype(str)
+        .str.replace("\r\n", " ", regex=False)
+        .str.replace("\r",   " ", regex=False)
+        .str.replace("\n",   " ", regex=False)
+    )
+
+df.to_parquet(PARQUET_PATH, index=False)
+print(f"  Saved {len(df):,} rows to {PARQUET_PATH}")
+>>>>>>> aa318d1 (refetch reddit mentions 2007-2024)
