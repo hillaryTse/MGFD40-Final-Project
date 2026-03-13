@@ -19,11 +19,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir   = os.path.join(script_dir, "..")
 data_dir   = os.path.join(root_dir, "Data")
 
-<<<<<<< HEAD
-REDDIT_PATH = os.path.join(data_dir, "reddit_data_2007_2024.parquet")
-=======
 REDDIT_PATH = os.path.join(data_dir, "reddit_fetch_2007_2024.parquet")
->>>>>>> aa318d1 (refetch reddit mentions 2007-2024)
 CRSP_PATH   = os.path.join(data_dir, "crsp_daily_2024.parquet")
 OUT_PARQUET = os.path.join(script_dir, "reddit_mentions_2024.parquet")
 OUT_CSV     = os.path.join(script_dir, "reddit_mentions_2024.csv")
@@ -37,12 +33,8 @@ valid_tickers = set(crsp["ticker"].dropna().unique())
 print(f"  {len(valid_tickers):,} unique valid tickers in CRSP")
 
 print("Loading Reddit data...")
-<<<<<<< HEAD
 reddit = pd.read_parquet(REDDIT_PATH, columns=["date", "ticker"])
 reddit = reddit[reddit["date"].astype(str).str.startswith("2024")]
-=======
-reddit = pd.read_csv(REDDIT_PATH, usecols=["date", "ticker"])
->>>>>>> aa318d1 (refetch reddit mentions 2007-2024)
 print(f"  {len(reddit):,} total mention rows before filtering")
 
 # ---------------------------------------------------------------------------

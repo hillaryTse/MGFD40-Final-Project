@@ -47,6 +47,12 @@ top20 = df.groupby("ticker")["mentions"].sum().sort_values(ascending=False).head
 print(top20)
 
 print("\n" + "=" * 70)
+print("BOTTOM 20 LEAST MENTIONED STOCKS")
+print("=" * 70)
+bottom20 = df.groupby("ticker")["mentions"].sum().sort_values(ascending=True).head(20)
+print(bottom20)
+
+print("\n" + "=" * 70)
 print("FIRST 20 ROWS OF DATA")
 print("=" * 70)
 print(df.head(20).to_string())
