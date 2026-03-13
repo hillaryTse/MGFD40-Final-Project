@@ -33,7 +33,8 @@ valid_tickers = set(crsp["ticker"].dropna().unique())
 print(f"  {len(valid_tickers):,} unique valid tickers in CRSP")
 
 print("Loading Reddit data...")
-reddit = pd.read_csv(REDDIT_PATH, usecols=["date", "ticker"])
+reddit = pd.read_parquet(REDDIT_PATH, columns=["date", "ticker"])
+reddit = reddit[reddit["date"].astype(str).str.startswith("2024")]
 print(f"  {len(reddit):,} total mention rows before filtering")
 
 # ---------------------------------------------------------------------------
