@@ -23,7 +23,7 @@ import pandas as pd
 from datetime import datetime, timezone
 
 SUBREDDIT        = "pennystocks"
-OUT_PATH         = "reddit_data_2007_2024.csv"
+OUT_PATH         = "reddit_fetch_2007_2024.csv"
 CHECKPOINT       = "scrape_checkpoint.txt"
 CHECKPOINT_EVERY = 5000
 
