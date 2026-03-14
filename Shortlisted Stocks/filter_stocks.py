@@ -1,9 +1,12 @@
+import os
 import pandas as pd
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
     # load data
-    df = pd.read_csv('reddit_mentions_2024.csv')
+    df = pd.read_csv(os.path.join(SCRIPT_DIR, '../2024 Reddit mentions/reddit_mentions_2024.csv'))
 
     # aggregate mentions per ticker
     agg = df.groupby('ticker', as_index=False)['mentions'].sum()
@@ -22,8 +25,8 @@ def main():
     print(bottom25.to_string(index=False))
 
     # save to csv if desired
-    top25.to_csv('top25_stocks.csv', index=False)
-    bottom25.to_csv('bottom25_stocks.csv', index=False)
+    top25.to_csv(os.path.join(SCRIPT_DIR, 'top25_stocks.csv'), index=False)
+    bottom25.to_csv(os.path.join(SCRIPT_DIR, 'bottom25_stocks.csv'), index=False)
 
 
 if __name__ == '__main__':
