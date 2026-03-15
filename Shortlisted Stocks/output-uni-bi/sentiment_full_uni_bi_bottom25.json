@@ -1,0 +1,982 @@
+[
+  {
+    "ticker": "ALRN",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 5,
+    "total_uni_neg_hits": 4,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 260,
+    "total_bigrams": 259,
+    "avg_combined_score": 0.001923,
+    "corpus_combined_score": 0.001923,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-03-22 00:00:00",
+        "text": "Upcoming biotech and pharma FDA/PDUFA catalysts calendar (*Updated) for end-March/April 2024, considering Penny stocks    https://preview.redd.it/c8j9",
+        "combined_score": 0.001923,
+        "uni_score": 0.003846,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "solid",
+          "solid",
+          "solid",
+          "solid",
+          "solid"
+        ],
+        "matched_uni_neg": [
+          "expected",
+          "anticipated",
+          "expected",
+          "expected"
+        ],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "ALTO",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 1,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 202,
+    "total_bigrams": 201,
+    "avg_combined_score": 0.002475,
+    "corpus_combined_score": 0.002475,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-10-31 00:00:00",
+        "text": "Upcoming Penny Stock Catalysts in Biotech/Pharma for November 2024 Hi Penny traders,  I have compiled a table with early November catalysts; feel free",
+        "combined_score": 0.002475,
+        "uni_score": 0.00495,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "great"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "DDD",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 12,
+    "total_uni_neg_hits": 11,
+    "total_bi_pos_hits": 1,
+    "total_bi_neg_hits": 1,
+    "total_tokens": 559,
+    "total_bigrams": 558,
+    "avg_combined_score": 0.000894,
+    "corpus_combined_score": 0.000894,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-12-13 00:00:00",
+        "text": "3D Systems Shifts Gears: Strategic Software Sale to Hexagon Boosts Market Confidence **Company to refocus on core 3D printing platforms while strength",
+        "combined_score": 0.000894,
+        "uni_score": 0.001789,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "over",
+          "leverage",
+          "cash",
+          "growth",
+          "across",
+          "over",
+          "margin",
+          "growing",
+          "up",
+          "improved"
+        ],
+        "matched_uni_neg": [
+          "expected",
+          "decline",
+          "costs",
+          "decision",
+          "expected",
+          "challenging",
+          "declined",
+          "however",
+          "challenges",
+          "loss"
+        ],
+        "matched_bi_pos": [
+          "improved operational"
+        ],
+        "matched_bi_neg": [
+          "net loss"
+        ]
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "DMN",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 2,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 23,
+    "total_bigrams": 22,
+    "avg_combined_score": 0.043478,
+    "corpus_combined_score": 0.043478,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-12-28 00:00:00",
+        "text": "Damon inc DMN They make electric motorcycles and just IPO\u2019d at 4 bucks a share. What do y\u2019all think or know?",
+        "combined_score": 0.043478,
+        "uni_score": 0.086957,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "share",
+          "think"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "DOUG",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 3,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 62,
+    "total_bigrams": 61,
+    "avg_combined_score": 0.024194,
+    "corpus_combined_score": 0.024194,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-12-23 00:00:00",
+        "text": "Douglas Elliman (DOUG) Took a hit because of interest rated and some other legal things. It\u2019s at 1.60 but it was at 2.70 in October. Low volume and lo",
+        "combined_score": 0.024194,
+        "uni_score": 0.048387,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "think",
+          "well",
+          "think"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "DRIO",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 2,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 29,
+    "total_bigrams": 28,
+    "avg_combined_score": 0.034483,
+    "corpus_combined_score": 0.034483,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-11-07 00:00:00",
+        "text": "OM Swing and DRIO looking nice post earnings  Both companies reported earnings in the last two sessions and there just starting to get found after bot",
+        "combined_score": 0.034483,
+        "uni_score": 0.068966,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "nice",
+          "great"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "EGIO",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 6,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 119,
+    "total_bigrams": 118,
+    "avg_combined_score": 0.02521,
+    "corpus_combined_score": 0.02521,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-06-18 00:00:00",
+        "text": "Trade Plan for June 18 $NLSP \u2013 looks good and might hit $0.57-58  $MBIO had a buy alert yesterday as well at $0.39.. still looks good for $1.40-1.65  ",
+        "combined_score": 0.02521,
+        "uni_score": 0.05042,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "good",
+          "well",
+          "good",
+          "great",
+          "great",
+          "solid"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "ENG",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 3,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 33,
+    "total_bigrams": 32,
+    "avg_combined_score": 0.045455,
+    "corpus_combined_score": 0.045455,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-06-03 00:00:00",
+        "text": "Low Float Stocks \ud83d\ude80\ud83d\udd25 ENGlobal  Ticker Symbol ENG 3.83 million share float  Pioneer Power Solutions Ticker Symbol PPSI 7.64 million share float   Profir",
+        "combined_score": 0.045455,
+        "uni_score": 0.090909,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "share",
+          "share",
+          "share"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "ERAS",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 10,
+    "total_uni_neg_hits": 3,
+    "total_bi_pos_hits": 1,
+    "total_bi_neg_hits": 1,
+    "total_tokens": 468,
+    "total_bigrams": 467,
+    "avg_combined_score": 0.007479,
+    "corpus_combined_score": 0.007479,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-05-21 00:00:00",
+        "text": "Biotech and Pharma FDA Catalysts Calendar for end-May and June 2024, Considering Penny Stocks Over last weekend, I compiled the catalysts calendar for",
+        "combined_score": 0.007479,
+        "uni_score": 0.014957,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "over",
+          "well",
+          "solid",
+          "solid",
+          "solid",
+          "solid",
+          "solid",
+          "solid",
+          "solid",
+          "solid"
+        ],
+        "matched_uni_neg": [
+          "below",
+          "not",
+          "short"
+        ],
+        "matched_bi_pos": [
+          "over last"
+        ],
+        "matched_bi_neg": [
+          "cell lung"
+        ]
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "ERNA",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 0,
+    "neutral_count": 1,
+    "bullish_pct": 0.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 100.0,
+    "total_uni_pos_hits": 0,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 20,
+    "total_bigrams": 19,
+    "avg_combined_score": 0.0,
+    "corpus_combined_score": 0.0,
+    "overall_sentiment": "neutral",
+    "sample_bullish": [],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "FTEK",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 1,
+    "neutral_count": 0,
+    "bullish_pct": 0.0,
+    "bearish_pct": 100.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 4,
+    "total_uni_neg_hits": 8,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 385,
+    "total_bigrams": 384,
+    "avg_combined_score": -0.005195,
+    "corpus_combined_score": -0.005195,
+    "overall_sentiment": "bearish",
+    "sample_bullish": [],
+    "sample_bearish": [
+      {
+        "date": "2024-11-25 00:00:00",
+        "text": "Watchlist: 15+1 penny stocks for this week Hi team! Yes, I consider you my remote team because you have been assisting me for weeks, even if you didn'",
+        "combined_score": -0.005195,
+        "uni_score": -0.01039,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "share",
+          "good",
+          "share",
+          "share"
+        ],
+        "matched_uni_neg": [
+          "back",
+          "taking",
+          "related",
+          "expected",
+          "expected",
+          "related",
+          "not",
+          "need"
+        ],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ]
+  },
+  {
+    "ticker": "VCNX",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 1,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 202,
+    "total_bigrams": 201,
+    "avg_combined_score": 0.002475,
+    "corpus_combined_score": 0.002475,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-10-31 00:00:00",
+        "text": "Upcoming Penny Stock Catalysts in Biotech/Pharma for November 2024 Hi Penny traders,  I have compiled a table with early November catalysts; feel free",
+        "combined_score": 0.002475,
+        "uni_score": 0.00495,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "great"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VEEE",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 0,
+    "neutral_count": 1,
+    "bullish_pct": 0.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 100.0,
+    "total_uni_pos_hits": 0,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 18,
+    "total_bigrams": 17,
+    "avg_combined_score": 0.0,
+    "corpus_combined_score": 0.0,
+    "overall_sentiment": "neutral",
+    "sample_bullish": [],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VERI",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 1,
+    "neutral_count": 0,
+    "bullish_pct": 0.0,
+    "bearish_pct": 100.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 1,
+    "total_uni_neg_hits": 3,
+    "total_bi_pos_hits": 1,
+    "total_bi_neg_hits": 2,
+    "total_tokens": 133,
+    "total_bigrams": 132,
+    "avg_combined_score": -0.011307,
+    "corpus_combined_score": -0.011307,
+    "overall_sentiment": "bearish",
+    "sample_bullish": [],
+    "sample_bearish": [
+      {
+        "date": "2024-12-31 00:00:00",
+        "text": "I did the hard work so you don\u2019t have to As the title suggests. Just kidding tho lol. Some of the tickers Im seeing more and more people picking up or",
+        "combined_score": -0.011307,
+        "uni_score": -0.015038,
+        "bi_score": -0.007576,
+        "matched_uni_pos": [
+          "up"
+        ],
+        "matched_uni_neg": [
+          "term",
+          "term",
+          "not"
+        ],
+        "matched_bi_pos": [
+          "hard work"
+        ],
+        "matched_bi_neg": [
+          "near term",
+          "long term"
+        ]
+      }
+    ]
+  },
+  {
+    "ticker": "VIEW",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 12,
+    "total_uni_neg_hits": 9,
+    "total_bi_pos_hits": 1,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 835,
+    "total_bigrams": 834,
+    "avg_combined_score": 0.002396,
+    "corpus_combined_score": 0.002396,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-01-17 00:00:00",
+        "text": "$PEAS.V GFI ANNOUNCES SIGNING OF DEFINITIVE AGREEMENTS FOR 12.3M INVESTMENTS IN ITS PET FOOD DIVISION [VIEW News release](https://ca.finance.yahoo.com",
+        "combined_score": 0.002396,
+        "uni_score": 0.003593,
+        "bi_score": 0.001199,
+        "matched_uni_pos": [
+          "well",
+          "growth",
+          "up",
+          "over",
+          "years",
+          "share",
+          "share",
+          "years",
+          "over",
+          "growing"
+        ],
+        "matched_uni_neg": [
+          "expected",
+          "expected",
+          "associated",
+          "term",
+          "term",
+          "issue",
+          "issue",
+          "term",
+          "related"
+        ],
+        "matched_bi_pos": [
+          "per share"
+        ],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VIRI",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 0,
+    "neutral_count": 1,
+    "bullish_pct": 0.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 100.0,
+    "total_uni_pos_hits": 0,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 5,
+    "total_bigrams": 4,
+    "avg_combined_score": 0.0,
+    "corpus_combined_score": 0.0,
+    "overall_sentiment": "neutral",
+    "sample_bullish": [],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VNCE",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 4,
+    "total_uni_neg_hits": 3,
+    "total_bi_pos_hits": 1,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 231,
+    "total_bigrams": 230,
+    "avg_combined_score": 0.004338,
+    "corpus_combined_score": 0.004338,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-01-08 00:00:00",
+        "text": "How the algo works that delivered + 37.1% in dec. Some of you checking my comments, have asked about how I picked some of the winners in december (suc",
+        "combined_score": 0.004338,
+        "uni_score": 0.004329,
+        "bi_score": 0.004348,
+        "matched_uni_pos": [
+          "delivered",
+          "good",
+          "really",
+          "strong"
+        ],
+        "matched_uni_neg": [
+          "down",
+          "loss",
+          "short"
+        ],
+        "matched_bi_pos": [
+          "really strong"
+        ],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VRCA",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 1,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 35,
+    "total_bigrams": 34,
+    "avg_combined_score": 0.014286,
+    "corpus_combined_score": 0.014286,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-08-14 00:00:00",
+        "text": "$VRCA Verrica Pharmaceuticals Announces Positive Preliminary Topline Results from Part 2 of Phase 2 Clinical Study of VP 315 an Investigational Oncoly",
+        "combined_score": 0.014286,
+        "uni_score": 0.028571,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "results"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VTYX",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 2,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 103,
+    "total_bigrams": 102,
+    "avg_combined_score": 0.009709,
+    "corpus_combined_score": 0.009709,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-05-29 00:00:00",
+        "text": "Analysts Think $CRDL is Undervalued Last week, Canaccord Genuity lifted the PT to $8 from $6 on Cardiol Therapeutics Inc (NASDAQ: CRDL) \u2013 Potential ga",
+        "combined_score": 0.009709,
+        "uni_score": 0.019417,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "think",
+          "success"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VUZI",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 2,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 27,
+    "total_bigrams": 26,
+    "avg_combined_score": 0.037037,
+    "corpus_combined_score": 0.037037,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-12-22 00:00:00",
+        "text": "What's up with VUZI? It was at 1$ a month ago now it's at 4.40. They make smart glasses; why's it blowing up?",
+        "combined_score": 0.037037,
+        "uni_score": 0.074074,
+        "bi_score": 0.0,
+        "matched_uni_pos": [
+          "up",
+          "up"
+        ],
+        "matched_uni_neg": [],
+        "matched_bi_pos": [],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "VYNE",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 1,
+    "neutral_count": 0,
+    "bullish_pct": 0.0,
+    "bearish_pct": 100.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 0,
+    "total_uni_neg_hits": 5,
+    "total_bi_pos_hits": 2,
+    "total_bi_neg_hits": 1,
+    "total_tokens": 328,
+    "total_bigrams": 327,
+    "avg_combined_score": -0.006093,
+    "corpus_combined_score": -0.006093,
+    "overall_sentiment": "bearish",
+    "sample_bullish": [],
+    "sample_bearish": [
+      {
+        "date": "2024-03-03 00:00:00",
+        "text": "Upcoming biotech and pharma FDA/PDUFA catalysts calendar (*Updated) for mainly the first two weeks of March 2024 &#x200B;  https://preview.redd.it/s8t",
+        "combined_score": -0.006093,
+        "uni_score": -0.015244,
+        "bi_score": 0.003058,
+        "matched_uni_pos": [],
+        "matched_uni_neg": [
+          "related",
+          "associated",
+          "expected",
+          "due",
+          "expected"
+        ],
+        "matched_bi_pos": [
+          "life sciences",
+          "life sciences"
+        ],
+        "matched_bi_neg": [
+          "first quarter"
+        ]
+      }
+    ]
+  },
+  {
+    "ticker": "XERS",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 0,
+    "neutral_count": 1,
+    "bullish_pct": 0.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 100.0,
+    "total_uni_pos_hits": 0,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 25,
+    "total_bigrams": 24,
+    "avg_combined_score": 0.0,
+    "corpus_combined_score": 0.0,
+    "overall_sentiment": "neutral",
+    "sample_bullish": [],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "XLO",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 0,
+    "bearish_count": 0,
+    "neutral_count": 1,
+    "bullish_pct": 0.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 100.0,
+    "total_uni_pos_hits": 0,
+    "total_uni_neg_hits": 0,
+    "total_bi_pos_hits": 0,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 38,
+    "total_bigrams": 37,
+    "avg_combined_score": 0.0,
+    "corpus_combined_score": 0.0,
+    "overall_sentiment": "neutral",
+    "sample_bullish": [],
+    "sample_bearish": []
+  },
+  {
+    "ticker": "XWEL",
+    "mentions": 1,
+    "posts_found": 1,
+    "total_signals": 1,
+    "skipped_too_short": 0,
+    "bullish_count": 1,
+    "bearish_count": 0,
+    "neutral_count": 0,
+    "bullish_pct": 100.0,
+    "bearish_pct": 0.0,
+    "neutral_pct": 0.0,
+    "total_uni_pos_hits": 19,
+    "total_uni_neg_hits": 3,
+    "total_bi_pos_hits": 1,
+    "total_bi_neg_hits": 0,
+    "total_tokens": 842,
+    "total_bigrams": 841,
+    "avg_combined_score": 0.010096,
+    "corpus_combined_score": 0.010096,
+    "overall_sentiment": "bullish",
+    "sample_bullish": [
+      {
+        "date": "2024-12-16 00:00:00",
+        "text": "$XWEL Could Go Parabolic With Upcoming Historic Catalysts $XWEL XWELL, Inc., a health and wellness services company, provides spa services at airports",
+        "combined_score": 0.010096,
+        "uni_score": 0.019002,
+        "bi_score": 0.001189,
+        "matched_uni_pos": [
+          "well",
+          "well",
+          "share",
+          "years",
+          "growth",
+          "across",
+          "across",
+          "growth",
+          "expansion",
+          "expansion"
+        ],
+        "matched_uni_neg": [
+          "transition",
+          "impact",
+          "related"
+        ],
+        "matched_bi_pos": [
+          "per share"
+        ],
+        "matched_bi_neg": []
+      }
+    ],
+    "sample_bearish": []
+  }
+]
