@@ -143,31 +143,6 @@ def main():
         .rename("mean_daily_sentiment_value")
     )
 
-    # Compute weekly averages per ticker using week-ending Friday to match returns data.
-    weekly_sentiment = (
-        reddit_scored
-        .groupby(["ticker", pd.Grouper(key="date", freq="W-FRI")])
-        .agg(
-            weekly_sentiment_value=("sentiment_value", "mean"),
-            weekly_top_score=("top_score", "mean"),
-        )
-        .reset_index()
-    )
-
-    mean_weekly_sentiment = (
-        weekly_sentiment
-        .groupby("ticker")["weekly_sentiment_value"]
-        .mean()
-        .rename("mean_weekly_sentiment_value")
-    )
-
-    mean_weekly_confidence = (
-        weekly_sentiment
-        .groupby("ticker")["weekly_top_score"]
-        .mean()
-        .rename("mean_weekly_confidence")
-    )
-
     # Aggregate by ticker + group
     agg = (
         reddit_scored
@@ -185,8 +160,6 @@ def main():
 
     # Add the daily-mean sentiment value to the ticker summary
     agg = agg.merge(mean_daily_sentiment, on="ticker", how="left")
-    agg = agg.merge(mean_weekly_sentiment, on="ticker", how="left")
-    agg = agg.merge(mean_weekly_confidence, on="ticker", how="left")
 
     # Classify the overall sentiment direction for easier reading
     # NOTE: the +/-0.01 cutoff is a small tolerance to avoid labeling tiny floating
@@ -200,6 +173,10 @@ def main():
         return "neutral"
 
     agg["overall_sentiment"] = agg["mean_sentiment_value"].apply(_overall_sentiment)
+
+    # Add a simple confidence metric: how strong the model's prediction tends to be
+    # for the ticker (mean of the top-class probability).
+    agg["mean_confidence"] = agg["mean_top_score"]
 
     # Order output for readability
     agg = agg.sort_values(
