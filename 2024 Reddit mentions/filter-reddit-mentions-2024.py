@@ -19,7 +19,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir   = os.path.join(script_dir, "..")
 data_dir   = os.path.join(root_dir, "Data")
 
-REDDIT_PATH = os.path.join(data_dir, "reddit_fetch_2007_2024.parquet")
+REDDIT_PATH = os.path.join(data_dir, "reddit_data_2007_2024.parquet")
 CRSP_PATH   = os.path.join(data_dir, "crsp_daily_2024.parquet")
 OUT_PARQUET = os.path.join(script_dir, "reddit_mentions_2024.parquet")
 OUT_CSV     = os.path.join(script_dir, "reddit_mentions_2024.csv")
