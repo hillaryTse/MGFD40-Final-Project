@@ -25,7 +25,7 @@ import statsmodels.formula.api as smf
 from pathlib import Path
 
 ROOT         = Path(__file__).parent.parent.parent   # MGFD40-Final-Project/
-SENTI_DIR    = Path(__file__).parent.parent          # Finbert_Sentiment/
+SENTI_DIR    = Path(__file__).parent.parent          # Finbert_Sentiment_2024/
 MENTIONS_DIR = ROOT / "2024 Reddit mentions"
 OUT_DIR      = Path(__file__).parent
 

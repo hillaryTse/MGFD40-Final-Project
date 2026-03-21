@@ -49,7 +49,7 @@ def load_ticker_groups(root: Path):
 def main():
     root = Path(__file__).resolve().parent.parent
 
-    out_dir = root / "Finbert_Sentiment"
+    out_dir = root / "Finbert_Sentiment_2024"
     out_dir.mkdir(exist_ok=True)
 
     print("Loading ticker groups...")

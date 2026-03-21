@@ -1,5 +1,12 @@
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.parquet filter=lfs diff=lfs merge=lfs -text
 Data/reddit_data_2007_2024.csv filter=lfs diff=lfs merge=lfs -text
+All_Year_Reddit_Data/Reddit_Data_All_Years/reddit_data_*.csv filter=lfs diff=lfs merge=lfs -text
+Data_2024/reddit_data_*.csv filter=lfs diff=lfs merge=lfs -text
+original_data_crsp/compustat_quarterly_*.csv filter=lfs diff=lfs merge=lfs -text
+original_data_crsp/crsp_daily_*.csv filter=lfs diff=lfs merge=lfs -text
+original_data_crsp/*/Filtered_Stocks filter=lfs diff=lfs merge=lfs -text
+original_data_crsp/*/Filtered_Stocks.csv filter=lfs diff=lfs merge=lfs -text
+original_data_crsp/*/Filtered_Stocks_tickers.csv filter=lfs diff=lfs merge=lfs -text
 *.csv filter=lfs diff=lfs merge=lfs -text
 Data/reddit_data_2007_2024.csv filter=lfs diff=lfs merge=lfs -text
