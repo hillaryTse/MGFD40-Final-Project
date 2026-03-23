@@ -129,6 +129,6 @@ m2 = smf.ols("lead_abnormal_ret ~ Dummy + lag_abnormal_ret", data=reg2).fit(cov_
 print(m2.summary())
 
 # ── 9. Save ───────────────────────────────────────────────────────────────────
-panel.to_csv(OUT_DIR / "long_short_high_mentions.csv", index=False)
-print(f"\nSaved: {OUT_DIR / 'long_short_high_mentions.csv'}")
+panel.to_csv(OUT_DIR / "high_mentions.csv", index=False)
+print(f"\nSaved: {OUT_DIR / 'high_mentions.csv'}")
 print(f"Columns: {list(panel.columns)}")

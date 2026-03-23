@@ -1,8 +1,8 @@
 """
-Long-Short Portfolio — Mentions + Bullish Sentiment (2019-Jan 2024)
+Long-Short Portfolio — All Mentions + Bullish Sentiment (2019-Jan 2024)
 
-Long : top quintile mentions (>= 80th pct) AND top_label == 'positive' that week (Dummy = 1)
-Short: zero mentions                                                               (Dummy = 0)
+Long : all mentioned stocks AND top_label == 'positive' that week (Dummy = 1)
+Short: zero mentions                                               (Dummy = 0)
 
 Sentiment score = avg sentiment_value (positive - negative) for stock i in week t
 
@@ -18,7 +18,7 @@ import yfinance as yf
 import statsmodels.formula.api as smf
 from pathlib import Path
 
-ROOT    = Path(__file__).resolve().parent.parent.parent.parent
+ROOT    = Path(__file__).resolve().parent.parent.parent.parent   # MGFD40-Final-Project/
 OUT_DIR = Path(__file__).parent
 YEARS   = list(range(2019, 2024)) + [2024]   # 2019-2023 full + Jan 2024
 
@@ -51,6 +51,7 @@ crsp_weekly = (
     .reset_index()
     .rename(columns={"log1r": "weekly_ret"})
 )
+print(f"CRSP weekly: {len(crsp_weekly):,} stock-weeks")
 
 # ── 3. FinBERT posts -> weekly sentiment per stock ────────────────────────────
 posts = pd.read_csv(ROOT / "Finbert_Sentiment" / "reddit_finbert_sentiment_posts.csv",
@@ -87,12 +88,10 @@ for year in YEARS:
 mentions   = pd.concat(mentions_frames,   ignore_index=True)
 no_mention = pd.concat(no_mention_frames, ignore_index=True)
 
-# ── 5. Long leg: top quintile mentions AND bullish ────────────────────────────
-weekly_q80   = mentions.groupby("date")["mentions"].quantile(0.8).rename("q80")
-mentions     = mentions.merge(weekly_q80, on="date")
-high_mention = mentions[mentions["mentions"] >= mentions["q80"]][["date", "ticker"]]
+# ── 5. Long leg: all mentioned AND bullish ────────────────────────────────────
+all_mentioned = mentions[["date", "ticker"]]
 
-long_df = high_mention.merge(weekly_senti, on=["date", "ticker"], how="inner")
+long_df = all_mentioned.merge(weekly_senti, on=["date", "ticker"], how="inner")
 long_df = long_df[long_df["bullish"] == True][["date", "ticker", "sentiment_score"]].copy()
 long_df["Dummy"] = 1
 
@@ -122,9 +121,9 @@ ls_ret    = (long_ret - short_ret).dropna()
 print("\n" + "=" * 55)
 print("PORTFOLIO PERFORMANCE (2019 - Jan 2024)")
 print("=" * 55)
-for label, s in [("Long (high mention + bullish)", long_ret),
-                 ("Short (no mention)",             short_ret),
-                 ("L/S Spread",                     ls_ret)]:
+for label, s in [("Long (all mentioned + bullish)", long_ret),
+                 ("Short (no mention)",              short_ret),
+                 ("L/S Spread",                      ls_ret)]:
     sr = s.mean() / s.std() * (52 ** 0.5)
     print(f"  {label:<35} mean={s.mean():.4f}  Sharpe={sr:.3f}")
 
@@ -147,6 +146,6 @@ m2 = smf.ols("lead_abnormal_ret ~ sentiment_score + lag_abnormal_ret", data=reg2
 print(m2.summary())
 
 # ── 10. Save ──────────────────────────────────────────────────────────────────
-panel.to_csv(OUT_DIR / "long_short_high_mentions_sentiment.csv", index=False)
-print(f"\nSaved: {OUT_DIR / 'long_short_high_mentions_sentiment.csv'}")
+panel.to_csv(OUT_DIR / "all_mentions_sentiment.csv", index=False)
+print(f"\nSaved: {OUT_DIR / 'all_mentions_sentiment.csv'}")
 print(f"Columns: {list(panel.columns)}")
