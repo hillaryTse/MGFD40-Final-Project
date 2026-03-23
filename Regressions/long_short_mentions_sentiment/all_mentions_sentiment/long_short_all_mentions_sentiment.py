@@ -1,8 +1,8 @@
 """
-Long-Short Portfolio — Mentions + Bullish Sentiment (2019-Jan 2024)
+Long-Short Portfolio — All Mentions + Bullish Sentiment (2019-Jan 2024)
 
-Long : mentions > weekly median AND top_label == 'positive' that week (Dummy = 1)
-Short: zero mentions                                                   (Dummy = 0)
+Long : all mentioned stocks AND top_label == 'positive' that week (Dummy = 1)
+Short: zero mentions                                               (Dummy = 0)
 
 Sentiment score = avg sentiment_value (positive - negative) for stock i in week t
 
@@ -12,12 +12,13 @@ Reg 2 (t+1): abnormal_ret_i,t+1 = a + b1*SentimentScore_i,t + b2*lag_abnormal_re
 Benchmark: IWC via yfinance. HC3 robust SEs.
 """
 
+import numpy as np
 import pandas as pd
 import yfinance as yf
 import statsmodels.formula.api as smf
 from pathlib import Path
 
-ROOT    = Path(__file__).resolve().parent.parent.parent
+ROOT    = Path(__file__).resolve().parent.parent.parent.parent   # MGFD40-Final-Project/
 OUT_DIR = Path(__file__).parent
 YEARS   = list(range(2019, 2024)) + [2024]   # 2019-2023 full + Jan 2024
 
@@ -36,17 +37,21 @@ iwc_weekly["date"] = pd.to_datetime(iwc_weekly["date"])
 
 # ── 2. CRSP weekly returns ────────────────────────────────────────────────────
 print("Loading CRSP...")
-crsp = pd.read_csv(ROOT / "original_data_crsp" / "crsp_daily_20260107_044825.csv",
-                   usecols=["date", "ticker", "ret"], parse_dates=["date"])
+crsp = pd.read_parquet(ROOT / "original_data_crsp" / "crsp_daily_20260107_044825.parquet",
+                       columns=["date", "ticker", "ret"])
 crsp = crsp[(crsp["date"].dt.year.isin(YEARS)) &
             ~((crsp["date"].dt.year == 2024) & (crsp["date"].dt.month > 1))].copy()
 crsp["ret"] = pd.to_numeric(crsp["ret"], errors="coerce")
 crsp = crsp[crsp["ret"] > -1].dropna(subset=["ret"])
+crsp["log1r"] = np.log1p(crsp["ret"])
 crsp_weekly = (
-    crsp.groupby(["ticker", pd.Grouper(key="date", freq="W-FRI")])["ret"]
-    .apply(lambda x: (1 + x).prod() - 1)
-    .reset_index().rename(columns={"ret": "weekly_ret"})
+    crsp.groupby(["ticker", pd.Grouper(key="date", freq="W-FRI")])["log1r"]
+    .sum()
+    .apply(np.expm1)
+    .reset_index()
+    .rename(columns={"log1r": "weekly_ret"})
 )
+print(f"CRSP weekly: {len(crsp_weekly):,} stock-weeks")
 
 # ── 3. FinBERT posts -> weekly sentiment per stock ────────────────────────────
 posts = pd.read_csv(ROOT / "Finbert_Sentiment" / "reddit_finbert_sentiment_posts.csv",
@@ -69,8 +74,8 @@ weekly_senti = (
 # ── 4. Mentions -> weekly totals ──────────────────────────────────────────────
 mentions_frames, no_mention_frames = [], []
 for year in YEARS:
-    m = pd.read_csv(ROOT / f"{year}_reddit_mentions" / f"reddit_mentions_{year}.csv",
-                    parse_dates=["date"])
+    m = pd.read_parquet(ROOT / f"{year}_reddit_mentions" / f"reddit_mentions_{year}.parquet")
+    m["date"] = pd.to_datetime(m["date"])
     if year == 2024:
         m = m[m["date"].dt.month == 1]
     m["date"] = m["date"].dt.to_period("W-FRI").dt.end_time.dt.normalize()
@@ -83,12 +88,10 @@ for year in YEARS:
 mentions   = pd.concat(mentions_frames,   ignore_index=True)
 no_mention = pd.concat(no_mention_frames, ignore_index=True)
 
-# ── 5. Long leg: high mention AND bullish ─────────────────────────────────────
-weekly_med   = mentions.groupby("date")["mentions"].median().rename("med")
-mentions     = mentions.merge(weekly_med, on="date")
-high_mention = mentions[mentions["mentions"] > mentions["med"]][["date", "ticker"]]
+# ── 5. Long leg: all mentioned AND bullish ────────────────────────────────────
+all_mentioned = mentions[["date", "ticker"]]
 
-long_df = high_mention.merge(weekly_senti, on=["date", "ticker"], how="inner")
+long_df = all_mentioned.merge(weekly_senti, on=["date", "ticker"], how="inner")
 long_df = long_df[long_df["bullish"] == True][["date", "ticker", "sentiment_score"]].copy()
 long_df["Dummy"] = 1
 
@@ -107,8 +110,8 @@ panel = panel.sort_values(["ticker", "date"]).reset_index(drop=True)
 panel["lag_abnormal_ret"]  = panel.groupby("ticker")["abnormal_ret"].shift(1)
 panel["lead_abnormal_ret"] = panel.groupby("ticker")["abnormal_ret"].shift(-1)
 
-print(f"Panel: {len(panel):,} obs | {panel['ticker'].nunique()} tickers | {panel['date'].nunique()} weeks")
-print(f"Long leg: {(panel['Dummy']==1).sum()} obs | Short leg: {(panel['Dummy']==0).sum()} obs")
+print(f"Panel: {len(panel):,} observations | {panel['ticker'].nunique()} tickers | {panel['date'].nunique()} weeks")
+print(f"Long leg: {(panel['Dummy']==1).sum()} observations | Short leg: {(panel['Dummy']==0).sum()} observations")
 
 # ── 8. Portfolio performance ──────────────────────────────────────────────────
 long_ret  = panel[panel["Dummy"] == 1].groupby("date")["weekly_ret"].mean()
@@ -118,9 +121,9 @@ ls_ret    = (long_ret - short_ret).dropna()
 print("\n" + "=" * 55)
 print("PORTFOLIO PERFORMANCE (2019 - Jan 2024)")
 print("=" * 55)
-for label, s in [("Long (high mention + bullish)", long_ret),
-                 ("Short (no mention)",             short_ret),
-                 ("L/S Spread",                     ls_ret)]:
+for label, s in [("Long (all mentioned + bullish)", long_ret),
+                 ("Short (no mention)",              short_ret),
+                 ("L/S Spread",                      ls_ret)]:
     sr = s.mean() / s.std() * (52 ** 0.5)
     print(f"  {label:<35} mean={s.mean():.4f}  Sharpe={sr:.3f}")
 
@@ -143,6 +146,6 @@ m2 = smf.ols("lead_abnormal_ret ~ sentiment_score + lag_abnormal_ret", data=reg2
 print(m2.summary())
 
 # ── 10. Save ──────────────────────────────────────────────────────────────────
-panel.to_csv(OUT_DIR / "long_short_mentions_sentiment.csv", index=False)
-print(f"\nSaved: {OUT_DIR / 'long_short_mentions_sentiment.csv'}")
+panel.to_csv(OUT_DIR / "long_short_all_mentions_sentiment.csv", index=False)
+print(f"\nSaved: {OUT_DIR / 'long_short_all_mentions_sentiment.csv'}")
 print(f"Columns: {list(panel.columns)}")
