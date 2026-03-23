@@ -98,7 +98,7 @@ git checkout -b your-name/feature-description
 
 3. Make your changes, stage and commit:
 ```bash
-git add .
+git add file.py file.csv file.parquet folder/
 git commit -m "Brief description of what you did"
 ```
 
