@@ -1,11 +1,16 @@
 """
-Simple Long-Short Strategy: Sentiment (Contrarian)
+Simple Long-Short Strategy: Sentiment
 
-Strategy:
-- Week t: Identify stocks with bullish sentiment (positive) vs bearish sentiment (negative)
-- Friday t+1 4pm: Form portfolio - LONG (bearish), SHORT (bullish) [CONTRARIAN]
+Direction determined by t+1 beta from Sentiment_Regression.py results:
+  beta > 0  ->  MOMENTUM:   LONG bullish, SHORT bearish
+  beta < 0  ->  CONTRARIAN: LONG bearish,  SHORT bullish
+
+Reads beta from: Regression_Final/sentiment_regression_results_2019_2024.csv
+Current result : beta_Sentiment (t+1) = -0.081  ->  CONTRARIAN
+
+- Week t: Identify stocks with bullish (sentiment_value > 0) vs bearish (< 0) sentiment
+- Friday t+1 4pm: Form portfolio per direction above
 - Compute weekly return Mon-Fri of week t+i (i=1 to 26)
-- LS_ret(t+i) = avg(long returns) - avg(short returns)
 - Period: 2019-2023 (2024 used for 2023 t+i calculations)
 """
 
@@ -19,6 +24,20 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 OUT_DIR = Path(__file__).resolve().parent
 SENTIMENT_FP = ROOT / "Finbert_Sentiment" / "finbert_sentiment_2019_2024.csv"
 CRSP_WEEKLY_FP = ROOT / "original_data_crsp" / "crsp_weekly_monday_friday_4pm_2019_2024.csv"
+REGRESSION_RESULTS_FP = ROOT / "Regression_Final" / "sentiment_regression_results_2019_2024.csv"
+
+
+def get_strategy_direction() -> tuple[str, float, float]:
+    """Read t+1 beta from regression results and return strategy direction."""
+    reg = pd.read_csv(REGRESSION_RESULTS_FP)
+    row = reg[reg["model"] == "reg2_t_plus_1"].iloc[0]
+    beta = float(row["beta_Sentiment"])
+    pvalue = float(row["pvalue_Sentiment"])
+    direction = "momentum" if beta > 0 else "contrarian"
+    print(f"t+1 beta = {beta:.4f}  (p={pvalue:.4f})  ->  {direction.upper()} strategy")
+    if pvalue > 0.05:
+        print("  WARNING: t+1 beta not significant at 5% — strategy direction not statistically justified")
+    return direction, beta, pvalue
 
 
 def load_weekly_sentiment() -> pd.DataFrame:
@@ -71,68 +90,74 @@ def load_crsp_weekly() -> pd.DataFrame:
 
 
 def main() -> None:
+	direction, beta, pvalue = get_strategy_direction()
+	momentum = direction == "momentum"
+
 	sentiment = load_weekly_sentiment()
 	crsp = load_crsp_weekly()
 
 	# Get all unique dates in CRSP data
 	all_dates = sorted(crsp["date"].unique())
-	
+
 	results = []
 	max_forward = 26  # 6 months forward
-	
+
 	for i, date_t in enumerate(all_dates[:-1]):
 		# Get stocks and their sentiment at date t
 		sent_t = sentiment[sentiment["date"] == date_t]
 		crsp_t = crsp[crsp["date"] == date_t]
-		
+
 		# Only consider stocks that have both sentiment and price data
 		stocks_with_both = set(sent_t["ticker"].unique()) & set(crsp_t["ticker"].unique())
 		sent_t = sent_t[sent_t["ticker"].isin(stocks_with_both)].copy()
-		
+
 		if len(sent_t) == 0:
 			continue
-		
-		# Classify as bullish (positive sentiment_value) or bearish (negative sentiment_value)
-		# Use median to split; or use sign of sentiment_value
+
 		bullish_t = set(sent_t[sent_t["sentiment_value"] > 0]["ticker"].unique())
 		bearish_t = set(sent_t[sent_t["sentiment_value"] < 0]["ticker"].unique())
-		
+
 		if len(bullish_t) == 0 or len(bearish_t) == 0:
 			continue
+
+		# Direction driven by t+1 beta sign:
+		# momentum   (beta > 0): long bullish, short bearish
+		# contrarian (beta < 0): long bearish,  short bullish
+		if momentum:
+			long_set, short_set = bullish_t, bearish_t
+		else:
+			long_set, short_set = bearish_t, bullish_t
 
 		# Look forward up to max_forward weeks
 		for offset in range(1, min(max_forward + 1, len(all_dates) - i)):
 			date_forward = all_dates[i + offset]
-			
-			# Get returns at forward date
 			forward_rets = crsp[crsp["date"] == date_forward]
-			
-			# CONTRARIAN: LONG bearish, SHORT bullish
-			long_rets = forward_rets[forward_rets["ticker"].isin(bearish_t)]["weekly_ret"]
-			short_rets = forward_rets[forward_rets["ticker"].isin(bullish_t)]["weekly_ret"]
-			
+
+			long_rets  = forward_rets[forward_rets["ticker"].isin(long_set)]["weekly_ret"]
+			short_rets = forward_rets[forward_rets["ticker"].isin(short_set)]["weekly_ret"]
+
 			if len(long_rets) > 0 and len(short_rets) > 0:
 				ls_ret = long_rets.mean() - short_rets.mean()
-				
 				results.append({
 					"date_formation": date_t,
 					"date_return": date_forward,
 					"forward_weeks": offset,
-					"n_long_bearish": len(bearish_t),
-					"n_short_bullish": len(bullish_t),
+					"n_long": len(long_set),
+					"n_short": len(short_set),
 					"long_ret": long_rets.mean(),
 					"short_ret": short_rets.mean(),
 					"ls_ret": ls_ret,
 				})
-	
+
 	ls_panel = pd.DataFrame(results)
-	
-	# Filter to 2019-2023 formation dates (so returns through 2024)
 	ls_panel = ls_panel[ls_panel["date_formation"].dt.year.between(2019, 2023)].copy()
-	
+
+	long_label  = "Bullish" if momentum else "Bearish"
+	short_label = "Bearish" if momentum else "Bullish"
+
 	print("=" * 70)
-	print(f"Long-Short Strategy: Sentiment (Contrarian) (Forward Returns t+1 to t+26)")
-	print(f"LONG: Bearish sentiment | SHORT: Bullish sentiment")
+	print(f"Long-Short Strategy: Sentiment ({'Momentum' if momentum else 'Contrarian'}) (Forward Returns t+1 to t+26)")
+	print(f"LONG: {long_label} sentiment | SHORT: {short_label} sentiment")
 	print(f"Total observations: {len(ls_panel)}")
 	print(f"Date range (formation): {ls_panel['date_formation'].min().date()} to {ls_panel['date_formation'].max().date()}")
 	print(f"Forward weeks range: 1 to {ls_panel['forward_weeks'].max()}")
@@ -152,8 +177,10 @@ def main() -> None:
 		print(f"Sharpe (annualized): {(ls_panel['ls_ret'].mean() / ls_panel['ls_ret'].std()) * np.sqrt(52):.4f}")
 	print("=" * 70)
 	
-	ls_panel.to_csv(OUT_DIR / "LS_sentiment_contrarian_forward_2019_2023.csv", index=False)
-	print(f"\nSaved: {OUT_DIR / 'LS_sentiment_contrarian_forward_2019_2023.csv'}")
+	tag = "momentum" if momentum else "contrarian"
+	out_fp = OUT_DIR / f"LS_sentiment_{tag}_forward_2019_2023.csv"
+	ls_panel.to_csv(out_fp, index=False)
+	print(f"\nSaved: {out_fp}")
 
 
 if __name__ == "__main__":
