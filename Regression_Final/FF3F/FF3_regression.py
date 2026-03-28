@@ -71,15 +71,21 @@ def run_ff3(name: str, ls_weekly: pd.DataFrame, ff3: pd.DataFrame) -> pd.Series:
     print(model.summary())
 
     return pd.Series({
-        "strategy":   name,
-        "N":          n,
-        "alpha":      model.params["Intercept"],
-        "alpha_tstat":model.tvalues["Intercept"],
-        "alpha_pval": model.pvalues["Intercept"],
-        "b_MktRF":    model.params["Mkt_RF"],
-        "b_SMB":      model.params["SMB"],
-        "b_HML":      model.params["HML"],
-        "R2":         model.rsquared,
+        "strategy":       name,
+        "N":              n,
+        "alpha":          model.params["Intercept"],
+        "alpha_tstat":    model.tvalues["Intercept"],
+        "alpha_pval":     model.pvalues["Intercept"],
+        "b_MktRF":        model.params["Mkt_RF"],
+        "b_MktRF_tstat":  model.tvalues["Mkt_RF"],
+        "b_MktRF_pval":   model.pvalues["Mkt_RF"],
+        "b_SMB":          model.params["SMB"],
+        "b_SMB_tstat":    model.tvalues["SMB"],
+        "b_SMB_pval":     model.pvalues["SMB"],
+        "b_HML":          model.params["HML"],
+        "b_HML_tstat":    model.tvalues["HML"],
+        "b_HML_pval":     model.pvalues["HML"],
+        "R2":             model.rsquared,
     })
 
 

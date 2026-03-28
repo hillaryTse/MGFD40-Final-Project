@@ -68,7 +68,7 @@ first_cross = fwd.index[(fwd["mean"].shift(1) > 0) & (fwd["mean"] <= 0)]
 cutoff = int(fwd.loc[first_cross[0], "forward_weeks"]) if len(first_cross) else fwd["forward_weeks"].max()
 fwd_trim = fwd[fwd["forward_weeks"] <= cutoff].copy()
 
-fig1, axes = plt.subplots(3, 1, figsize=(13, 12))
+fig1, axes = plt.subplots(3, 1, figsize=(13, 16))
 fig1.suptitle("Long-Short Strategy: Reddit Mentions (2019–2023)", fontsize=13, fontweight="bold")
 
 # Panel 1 — long vs short cumulative
@@ -97,7 +97,7 @@ axes[2].set_xticks(fwd_trim["forward_weeks"])
 axes[2].grid(True, alpha=0.3, axis="y")
 axes[2].legend(fontsize=8)
 
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0, 1, 0.97], h_pad=4.0)
 fig1.savefig(PLOT_DIR / "plot_mentions_longshort.png", dpi=150)
 print("Saved: plots/plot_mentions_longshort.png")
 

@@ -6,6 +6,8 @@ Saves to FF3F/plots/FF3_table.png
 from pathlib import Path
 import matplotlib.pyplot as plt
 
+import pandas as pd
+
 OUT_DIR  = Path(__file__).resolve().parent
 PLOT_DIR = OUT_DIR / "plots"
 PLOT_DIR.mkdir(exist_ok=True)
@@ -17,25 +19,18 @@ def stars(p):
     return ""
 
 # ── Data ──────────────────────────────────────────────────────────────────────
-STRATEGIES = [
-    "Mentions\n(Long mentioned / Short unmentioned)",
-    "Sentiment Contrarian\n(Long bearish / Short bullish)",
-]
+_res = pd.read_csv(OUT_DIR / "FF3_regression_results.csv")
+
+STRATEGIES = [s.replace(" (", "\n(") for s in _res["strategy"].tolist()]
 DATA = [
     {
-        "Alpha":  (-0.0021, -0.313, 0.7546),
-        "Mkt-RF": (-0.6880, -1.433, 0.1520),
-        "SMB":    ( 1.6621,  3.945, 0.0001),
-        "HML":    (-0.3835, -1.701, 0.0890),
-        "R2": 0.087, "N": 250,
-    },
-    {
-        "Alpha":  (-0.0294, -2.584, 0.0098),
-        "Mkt-RF": ( 0.9824,  1.377, 0.1686),
-        "SMB":    ( 0.0680,  0.092, 0.9270),
-        "HML":    ( 0.0854,  0.213, 0.8314),
-        "R2": 0.039, "N": 197,
-    },
+        "Alpha":  (row["alpha"],   row["alpha_tstat"],   row["alpha_pval"]),
+        "Mkt-RF": (row["b_MktRF"], row["b_MktRF_tstat"], row["b_MktRF_pval"]),
+        "SMB":    (row["b_SMB"],   row["b_SMB_tstat"],   row["b_SMB_pval"]),
+        "HML":    (row["b_HML"],   row["b_HML_tstat"],   row["b_HML_pval"]),
+        "R2": row["R2"], "N": int(row["N"]),
+    }
+    for _, row in _res.iterrows()
 ]
 VARS    = ["Alpha", "Mkt-RF", "SMB", "HML"]
 DIVIDER = ["", "R²", "Observations"]

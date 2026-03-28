@@ -1,8 +1,11 @@
 """
 Weekly sentiment regressions (2019-2024)
 
-Reg 1 (t):   abnormal_ret_i,t   = a + b1*Sentiment_i,t + e
-Reg 2 (t+1): abnormal_ret_i,t+1 = a + b1*Sentiment_i,t + b2*lag_abnormal_ret_i,t-1 + e
+Signal: Q5 dummy = 1 if stock is in top quintile of sentiment_value that week, 0 otherwise.
+        Quintiles assigned within all stocks with sentiment each week.
+
+Reg 1 (t):   abnormal_ret_i,t   = a + b1*Q5_i,t + e
+Reg 2 (t+1): abnormal_ret_i,t+1 = a + b1*Q5_i,t + b2*lag_abnormal_ret_i,t-1 + e
 """
 
 from pathlib import Path
@@ -22,7 +25,7 @@ SENTIMENT_FP = ROOT / "Finbert_Sentiment" / "finbert_sentiment_2019_2024.csv"
 def load_sentiment() -> pd.DataFrame:
 	if not SENTIMENT_FP.exists():
 		raise FileNotFoundError(f"Missing sentiment file: {SENTIMENT_FP}")
-	
+
 	df = pd.read_csv(SENTIMENT_FP)
 
 	# Handle date column - try common date column names
@@ -33,11 +36,24 @@ def load_sentiment() -> pd.DataFrame:
 	else:
 		raise ValueError(f"No date column found in {SENTIMENT_FP}")
 
-	# Keep relevant columns - use sentiment_value from finbert output
 	keep = df[["date", "ticker", "sentiment_value"]].copy()
-	keep["Sentiment"] = pd.to_numeric(keep["sentiment_value"], errors="coerce").fillna(0)
-	
-	return keep[["date", "ticker", "Sentiment"]]
+	keep["sentiment_value"] = pd.to_numeric(keep["sentiment_value"], errors="coerce").fillna(0)
+
+	return keep[["date", "ticker", "sentiment_value"]]
+
+
+def assign_q5(sentiment: pd.DataFrame) -> pd.DataFrame:
+	"""Assign Q5 dummy (1 = top quintile by sentiment_value) within each week."""
+	q5_list = []
+	for _, grp in sentiment.groupby("date"):
+		if len(grp) < 5:
+			q5_list.append(pd.Series(0, index=grp.index))
+		else:
+			quintile = pd.qcut(grp["sentiment_value"], q=5, labels=False, duplicates="drop")
+			q5_list.append((quintile == quintile.max()).astype(int))
+	sentiment = sentiment.copy()
+	sentiment["Q5"] = pd.concat(q5_list).reindex(sentiment.index).fillna(0).astype(int)
+	return sentiment
 
 
 def load_iwc_weekly(min_date: pd.Timestamp, max_date: pd.Timestamp) -> pd.DataFrame:
@@ -71,18 +87,18 @@ def load_crsp_weekly() -> pd.DataFrame:
 		raise ValueError(f"No date column found in {CRSP_WEEKLY_FP}")
 
 	weekly = weekly[weekly["date"].dt.year.between(2019, 2024)].copy()
-	
-	# Handle return column name variations
+
 	if "weekly_ret" in weekly.columns:
 		weekly_join = weekly[["date", "ticker", "weekly_ret"]].copy()
 	else:
 		raise ValueError(f"No 'weekly_ret' column found in {CRSP_WEEKLY_FP}")
-	
+
 	return weekly_join
 
 
 def main() -> None:
 	sentiment = load_sentiment()
+	sentiment = assign_q5(sentiment)
 
 	min_date = sentiment["date"].min()
 	max_date = sentiment["date"].max()
@@ -98,39 +114,39 @@ def main() -> None:
 	panel["lag_abnormal_ret"] = panel.groupby("ticker")["abnormal_ret"].shift(1)
 	panel["lead_abnormal_ret"] = panel.groupby("ticker")["abnormal_ret"].shift(-1)
 
-	reg1 = panel.dropna(subset=["abnormal_ret", "Sentiment"])
-	reg2 = panel.dropna(subset=["lead_abnormal_ret", "Sentiment", "lag_abnormal_ret"])
+	reg1 = panel.dropna(subset=["abnormal_ret", "Q5"])
+	reg2 = panel.dropna(subset=["lead_abnormal_ret", "Q5", "lag_abnormal_ret"])
 
 	print("=" * 70)
 	print(f"Panel observations: {len(panel):,}")
 	print(f"Date range: {panel['date'].min().date()} to {panel['date'].max().date()}")
 	print("=" * 70)
 
-	print("\nREG 1 (t): abnormal_ret ~ Sentiment")
+	print("\nREG 1 (t): abnormal_ret ~ Q5")
 	print(f"N = {len(reg1):,}")
-	m1 = smf.ols("abnormal_ret ~ Sentiment", data=reg1).fit(cov_type="HC3")
+	m1 = smf.ols("abnormal_ret ~ Q5", data=reg1).fit(cov_type="HC3")
 	print(m1.summary())
 
-	print("\nREG 2 (t+1): lead_abnormal_ret ~ Sentiment + lag_abnormal_ret")
+	print("\nREG 2 (t+1): lead_abnormal_ret ~ Q5 + lag_abnormal_ret")
 	print(f"N = {len(reg2):,}")
-	m2 = smf.ols("lead_abnormal_ret ~ Sentiment + lag_abnormal_ret", data=reg2).fit(cov_type="HC3")
+	m2 = smf.ols("lead_abnormal_ret ~ Q5 + lag_abnormal_ret", data=reg2).fit(cov_type="HC3")
 	print(m2.summary())
 
-	panel.to_csv(OUT_DIR / "sentiment_weekly_panel_2019_2024.csv", index=False)
+	panel.to_csv(OUT_DIR / "sentiment_weekly_panel_2019_2023.csv", index=False)
 	coef = pd.DataFrame(
 		{
 			"model": ["reg1_t", "reg2_t_plus_1"],
-			"beta_Sentiment": [m1.params.get("Sentiment", np.nan), m2.params.get("Sentiment", np.nan)],
-			"pvalue_Sentiment": [m1.pvalues.get("Sentiment", np.nan), m2.pvalues.get("Sentiment", np.nan)],
+			"beta_Sentiment": [m1.params.get("Q5", np.nan), m2.params.get("Q5", np.nan)],
+			"pvalue_Sentiment": [m1.pvalues.get("Q5", np.nan), m2.pvalues.get("Q5", np.nan)],
 			"N": [int(m1.nobs), int(m2.nobs)],
 			"r2": [m1.rsquared, m2.rsquared],
 		}
 	)
-	coef.to_csv(OUT_DIR / "sentiment_regression_results_2019_2024.csv", index=False)
+	coef.to_csv(OUT_DIR / "sentiment_regression_results_2019_2023.csv", index=False)
 
 	print("\nSaved:")
-	print(OUT_DIR / "sentiment_weekly_panel_2019_2024.csv")
-	print(OUT_DIR / "sentiment_regression_results_2019_2024.csv")
+	print(OUT_DIR / "sentiment_weekly_panel_2019_2023.csv")
+	print(OUT_DIR / "sentiment_regression_results_2019_2023.csv")
 
 
 if __name__ == "__main__":

@@ -1,11 +1,8 @@
 """
 Weekly mention regressions (2019-2024)
 
-Signal: Q5 dummy = 1 if stock is in top quintile of mention count that week, 0 otherwise.
-        Quintiles assigned within mentioned stocks each week. No-mention stocks get Q5 = 0.
-
-Reg 1 (t):   abnormal_ret_i,t   = a + b1*Q5_i,t + e
-Reg 2 (t+1): abnormal_ret_i,t+1 = a + b1*Q5_i,t + b2*lag_abnormal_ret_i,t-1 + e
+Reg 1 (t):   abnormal_ret_i,t   = a + b1*Mention_i,t + e
+Reg 2 (t+1): abnormal_ret_i,t+1 = a + b1*Mention_i,t + b2*lag_abnormal_ret_i,t-1 + e
 """
 
 from pathlib import Path
@@ -28,6 +25,7 @@ def load_weekly_mentions() -> pd.DataFrame:
 		2021: "2021_reddit_mentions",
 		2022: "2022_reddit_mentions",
 		2023: "2023_reddit_mentions",
+		2024: "2024_Reddit_mentions",
 	}
 
 	parts = []
@@ -64,6 +62,7 @@ def load_weekly_no_mentions() -> pd.DataFrame:
 		ROOT / "2021_reddit_mentions" / "no_mentions_2021.csv",
 		ROOT / "2022_reddit_mentions" / "no_mentions_2022.csv",
 		ROOT / "2023_reddit_mentions" / "no_mentions_2023.csv",
+		ROOT / "2024_Reddit_mentions" / "no_mentions_2024.csv",
 	]
 
 	parts = []
@@ -71,25 +70,11 @@ def load_weekly_no_mentions() -> pd.DataFrame:
 		if not fp.exists():
 			raise FileNotFoundError(f"Missing no-mentions file: {fp}")
 		df = pd.read_csv(fp, parse_dates=["date"], usecols=["date", "ticker"])
-		df["Q5"] = 0
+		df["Mention"] = 0.0
 		parts.append(df)
 
 	out = pd.concat(parts, ignore_index=True)
 	return out
-
-
-def assign_q5(mentions: pd.DataFrame) -> pd.DataFrame:
-	"""Assign Q5 dummy (1 = top quintile by mention count) within each week."""
-	q5_list = []
-	for _, grp in mentions.groupby("date"):
-		if len(grp) < 5:
-			q5_list.append(pd.Series(0, index=grp.index))
-		else:
-			quintile = pd.qcut(grp["Mention"], q=5, labels=False, duplicates="drop")
-			q5_list.append((quintile == quintile.max()).astype(int))
-	mentions = mentions.copy()
-	mentions["Q5"] = pd.concat(q5_list).reindex(mentions.index).fillna(0).astype(int)
-	return mentions
 
 
 def load_iwc_weekly(min_date: pd.Timestamp, max_date: pd.Timestamp) -> pd.DataFrame:
@@ -124,15 +109,12 @@ def main() -> None:
 	mentions = load_weekly_mentions()
 	no_mentions = load_weekly_no_mentions()
 
-	# Assign Q5 dummy within mentioned stocks per week
-	mentions = assign_q5(mentions)
-
 	signal_panel = pd.concat(
-		[mentions[["date", "ticker", "Q5"]], no_mentions[["date", "ticker", "Q5"]]],
+		[mentions[["date", "ticker", "Mention"]], no_mentions[["date", "ticker", "Mention"]]],
 		ignore_index=True,
 	)
 	signal_panel = (
-		signal_panel.groupby(["date", "ticker"], as_index=False)["Q5"]
+		signal_panel.groupby(["date", "ticker"], as_index=False)["Mention"]
 		.max()
 		.sort_values(["date", "ticker"])
 	)
@@ -151,39 +133,39 @@ def main() -> None:
 	panel["lag_abnormal_ret"] = panel.groupby("ticker")["abnormal_ret"].shift(1)
 	panel["lead_abnormal_ret"] = panel.groupby("ticker")["abnormal_ret"].shift(-1)
 
-	reg1 = panel.dropna(subset=["abnormal_ret", "Q5"])
-	reg2 = panel.dropna(subset=["lead_abnormal_ret", "Q5", "lag_abnormal_ret"])
+	reg1 = panel.dropna(subset=["abnormal_ret", "Mention"])
+	reg2 = panel.dropna(subset=["lead_abnormal_ret", "Mention", "lag_abnormal_ret"])
 
 	print("=" * 70)
 	print(f"Panel observations: {len(panel):,}")
 	print(f"Date range: {panel['date'].min().date()} to {panel['date'].max().date()}")
 	print("=" * 70)
 
-	print("\nREG 1 (t): abnormal_ret ~ Q5")
+	print("\nREG 1 (t): abnormal_ret ~ Mention")
 	print(f"N = {len(reg1):,}")
-	m1 = smf.ols("abnormal_ret ~ Q5", data=reg1).fit(cov_type="HC3")
+	m1 = smf.ols("abnormal_ret ~ Mention", data=reg1).fit(cov_type="HC3")
 	print(m1.summary())
 
-	print("\nREG 2 (t+1): lead_abnormal_ret ~ Q5 + lag_abnormal_ret")
+	print("\nREG 2 (t+1): lead_abnormal_ret ~ Mention + lag_abnormal_ret")
 	print(f"N = {len(reg2):,}")
-	m2 = smf.ols("lead_abnormal_ret ~ Q5 + lag_abnormal_ret", data=reg2).fit(cov_type="HC3")
+	m2 = smf.ols("lead_abnormal_ret ~ Mention + lag_abnormal_ret", data=reg2).fit(cov_type="HC3")
 	print(m2.summary())
 
-	panel.to_csv(OUT_DIR / "mention_weekly_panel_2019_2023.csv", index=False)
+	panel.to_csv(OUT_DIR / "mention_weekly_panel_2019_2024.csv", index=False)
 	coef = pd.DataFrame(
 		{
 			"model": ["reg1_t", "reg2_t_plus_1"],
-			"beta_Mention": [m1.params.get("Q5", np.nan), m2.params.get("Q5", np.nan)],
-			"pvalue_Mention": [m1.pvalues.get("Q5", np.nan), m2.pvalues.get("Q5", np.nan)],
+			"beta_Mention": [m1.params.get("Mention", np.nan), m2.params.get("Mention", np.nan)],
+			"pvalue_Mention": [m1.pvalues.get("Mention", np.nan), m2.pvalues.get("Mention", np.nan)],
 			"N": [int(m1.nobs), int(m2.nobs)],
 			"r2": [m1.rsquared, m2.rsquared],
 		}
 	)
-	coef.to_csv(OUT_DIR / "mention_regression_results_2019_2023.csv", index=False)
+	coef.to_csv(OUT_DIR / "mention_regression_results_2019_2024.csv", index=False)
 
 	print("\nSaved:")
-	print(OUT_DIR / "mention_weekly_panel_2019_2023.csv")
-	print(OUT_DIR / "mention_regression_results_2019_2023.csv")
+	print(OUT_DIR / "mention_weekly_panel_2019_2024.csv")
+	print(OUT_DIR / "mention_regression_dummy_results_2019_2024.csv")
 
 
 if __name__ == "__main__":
