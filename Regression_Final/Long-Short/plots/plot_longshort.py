@@ -68,7 +68,7 @@ first_cross = fwd.index[(fwd["mean"].shift(1) > 0) & (fwd["mean"] <= 0)]
 cutoff = int(fwd.loc[first_cross[0], "forward_weeks"]) if len(first_cross) else fwd["forward_weeks"].max()
 fwd_trim = fwd[fwd["forward_weeks"] <= cutoff].copy()
 
-fig1, axes = plt.subplots(3, 1, figsize=(13, 16))
+fig1, axes = plt.subplots(2, 1, figsize=(13, 10))
 fig1.suptitle("Long-Short Strategy: Reddit Mentions (2019–2023)", fontsize=13, fontweight="bold")
 
 # Panel 1 — long vs short cumulative
@@ -80,24 +80,9 @@ style_ax(axes[0], "Cumulative Returns — Long Leg vs Short Leg")
 axes[1].plot(mc["date_return"], mc["cum_ls"], color="navy", linewidth=2, label="L/S Spread")
 fill_ls(axes[1], mc["date_return"], mc["cum_ls"].values)
 style_ax(axes[1], "Cumulative Returns — Long-Short Portfolio")
+axes[1].set_xlabel("Date")
 
-# Panel 3 — forward horizon decay
-axes[2].bar(fwd_trim["forward_weeks"], fwd_trim["mean"],
-            color=["steelblue" if v >= 0 else "tomato" for v in fwd_trim["mean"]],
-            alpha=0.75, label="Avg L/S Return")
-axes[2].errorbar(fwd_trim["forward_weeks"], fwd_trim["mean"],
-                 yerr=1.96 * fwd_trim["sem"], fmt="none", color="black", capsize=3, linewidth=0.8)
-axes[2].axhline(0, color="black", linewidth=0.8, linestyle="--")
-axes[2].set_xlabel("Forward Weeks from Formation")
-axes[2].set_ylabel("Mean L/S Return")
-axes[2].set_title(f"Forward-Horizon Decay — Avg L/S Return (t+1 to t+{cutoff}, first zero-crossing)",
-                  fontsize=11, fontweight="bold")
-axes[2].yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1, decimals=2))
-axes[2].set_xticks(fwd_trim["forward_weeks"])
-axes[2].grid(True, alpha=0.3, axis="y")
-axes[2].legend(fontsize=8)
-
-plt.tight_layout(rect=[0, 0, 1, 0.97], h_pad=4.0)
+plt.tight_layout()
 fig1.savefig(PLOT_DIR / "plot_mentions_longshort.png", dpi=150)
 print("Saved: plots/plot_mentions_longshort.png")
 
