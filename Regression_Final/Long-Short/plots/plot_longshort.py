@@ -1,19 +1,17 @@
 """
 Long-Short Portfolio Plots
 --------------------------
-Mentions   : (1) Cumulative long/short/L-S returns over time
-             (2) Forward-horizon decay — avg L/S spread at weeks t+1 to t+26
-                 (plotted until mean L/S first crosses back to 0)
+Mentions   : (1) Cumulative long/short returns over time
+             (2) Cumulative L/S spread over time
 
-Sentiment  : (1) Cumulative long/short/L-S returns over time
-             (forward horizon omitted — t+1 beta not significant)
+Sentiment  : (1) Cumulative long/short returns over time
+             (2) Cumulative L/S spread over time
 """
 
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
-import numpy as np
 import pandas as pd
 
 PLOT_DIR = Path(__file__).resolve().parent
@@ -21,9 +19,8 @@ OUT_DIR  = PLOT_DIR.parent
 PLOT_DIR.mkdir(exist_ok=True)
 
 # ── Load data ──────────────────────────────────────────────────────────────────
-mentions_weekly  = pd.read_csv(OUT_DIR / "LS_mentions_weekly_2019_2023.csv",   parse_dates=["date_formation", "date_return"])
-mentions_forward = pd.read_csv(OUT_DIR / "LS_mentions_forward_2019_2023.csv",  parse_dates=["date_formation", "date_return"])
-senti_weekly     = pd.read_csv(OUT_DIR / "LS_sentiment_contrarian_weekly_2019_2023.csv", parse_dates=["date_formation", "date_return"])
+mentions_weekly = pd.read_csv(OUT_DIR / "LS_mentions_weekly_2019_2023.csv",                    parse_dates=["date_formation", "date_return"])
+senti_weekly    = pd.read_csv(OUT_DIR / "LS_sentiment_contrarian_weekly_2019_2023.csv",        parse_dates=["date_formation", "date_return"])
 
 # ── Helper: cumulative return series from a weekly file ───────────────────────
 def cum_rets(df: pd.DataFrame) -> pd.DataFrame:
@@ -51,22 +48,9 @@ def style_ax(ax, title, ylabel="Cumulative Return"):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# FIGURE 1 — MENTIONS  (3 panels)
+# FIGURE 1 — MENTIONS  (2 panels)
 # ══════════════════════════════════════════════════════════════════════════════
 mc = cum_rets(mentions_weekly)
-
-# Forward-horizon: mean L/S by offset week
-fwd = (
-    mentions_forward
-    .groupby("forward_weeks")["ls_ret"]
-    .agg(mean="mean", sem=lambda x: x.std() / np.sqrt(len(x)))
-    .reset_index()
-)
-
-# Trim to first reversal (mean crosses 0 from positive, or all if never crosses)
-first_cross = fwd.index[(fwd["mean"].shift(1) > 0) & (fwd["mean"] <= 0)]
-cutoff = int(fwd.loc[first_cross[0], "forward_weeks"]) if len(first_cross) else fwd["forward_weeks"].max()
-fwd_trim = fwd[fwd["forward_weeks"] <= cutoff].copy()
 
 fig1, axes = plt.subplots(2, 1, figsize=(13, 10))
 fig1.suptitle("Long-Short Strategy: Reddit Mentions (2019–2023)", fontsize=13, fontweight="bold")
